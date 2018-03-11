@@ -68,3 +68,9 @@ jar {
         )
   }
 }
+
+bootJar {
+        mainClassName = project.mainClassName
+	classifier = 'boot'
+        launchScript()
+}
