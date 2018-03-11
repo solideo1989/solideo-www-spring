@@ -3,27 +3,68 @@
 */
 
 plugins {
-    // Apply the java plugin to add support for Java
     id 'java'
-
-    // Apply the application plugin to add support for building an application
     id 'application'
+    
+    id 'org.springframework.boot' version '2.0.0.RELEASE'
 }
 
-// Define the main class for the application
+
+
+
+
+/**
+ * +-------------------+
+ * |  S E T T I N G S  |
+ * +-------------------+
+ */
+group = 'pl.solideo.www'
 mainClassName = 'pl.solideo.www.App'
 
-dependencies {
-    // This dependency is found on compile classpath of this component and consumers.
-    compile 'com.google.guava:guava:23.0'
-
-    // Use JUnit test framework
-    testCompile 'junit:junit:4.12'
+repositories {
+    jcenter()
 }
 
-// In this section you declare where to find the dependencies of your project
-repositories {
-    // Use jcenter for resolving your dependencies.
-    // You can declare any Maven/Ivy/file repository here.
-    jcenter()
+
+
+
+
+/**
+ * +-------------+
+ * |  B U I L D  |
+ * +-------------+
+ */
+dependencies {
+    //spring
+    compile "org.springframework.boot:spring-boot-starter-web:2.0.0.RELEASE"
+
+    //utility libraries
+    compile 'com.google.guava:guava:23.0'
+
+    //testing
+    testCompile 'junit:junit:4.12'
+    testCompile "org.springframework.boot:spring-boot-starter-test:2.0.0.RELEASE"
+}
+
+
+
+
+
+/**
+ * +-----------------+
+ * |  P A C K A G E  |
+ * +-----------------+
+ */
+
+jar {
+   mainClassName = project.mainClassName
+    version =  '0.1'
+    baseName = rootProject.name
+    enabled = true
+        
+    manifest {
+        attributes(
+            'Main-Class': project.mainClassName
+        )
+  }
 }
