@@ -1,0 +1,5 @@
+/**
+ * Author: Jędrzej LEwandowski <jedrzejblew@gmail.com>
+*/
+
+rootProject.name = 'solideo-www-spring'
