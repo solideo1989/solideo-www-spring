@@ -1,6 +1,6 @@
 /**
  * Author: Jędrzej LEwandowski <jedrzejblew@gmail.com>
-*/
+ */
 
 plugins {
     id 'java'
@@ -50,27 +50,36 @@ dependencies {
 
 
 
+
+
+
 /**
  * +-----------------+
  * |  P A C K A G E  |
  * +-----------------+
  */
+distZip.enabled = false
+bootDistZip.enabled = false
 
 jar {
-   mainClassName = project.mainClassName
+    mainClassName = project.mainClassName
     version =  '0.1'
     baseName = rootProject.name
-    enabled = true
+    enabled = false
         
     manifest {
         attributes(
             'Main-Class': project.mainClassName
         )
-  }
+    }
+    
+    dependsOn(test) //make sure jar and tar is not created on test failure
 }
 
 bootJar {
-        mainClassName = project.mainClassName
-	classifier = 'boot'
-        launchScript()
+    mainClassName = project.mainClassName
+    classifier = 'boot'
+    launchScript()
+    
+    dependsOn(test) //make sure jar and tar is not created on test failure
 }
