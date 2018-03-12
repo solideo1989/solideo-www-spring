@@ -10,7 +10,10 @@ GRADLE_CMD="clean build"
 docker run -t --rm --name solideo-www-spring-builder \
  -v "$GRADLE_HOME_VOLUME":/home/gradle/.gradle -v "$DIR":/home/gradle/project \
  -u root \
- -w /home/gradle/project $DOCKER_IMAGE gradle $GRADLE_CMD
+ -w /home/gradle/project $DOCKER_IMAGE gradle $GRADLE_CMD \
+ 2>&1 | tee build.log
+
+echo "Build finished"
 
 #    Bug in gradle: Running as "gradle" user causes: "Failed to load native library 
 # 'libnative-platform.so' for Linux amd64". Fix: "-u root"

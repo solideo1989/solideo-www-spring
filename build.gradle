@@ -55,12 +55,14 @@ dependencies {
  * |  P A C K A G E  |
  * +-----------------+
  */
+distZip.enabled = false
+bootDistZip.enabled = false
 
 jar {
    mainClassName = project.mainClassName
     version =  '0.1'
     baseName = rootProject.name
-    enabled = true
+    enabled = false
         
     manifest {
         attributes(
