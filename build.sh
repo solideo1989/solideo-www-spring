@@ -8,5 +8,5 @@ GRADLE_HOME_VOLUME="gradlehome"
 GRADLE_CMD="clean build"
 
 docker run -t --rm --name solideo-www-spring-builder \
- -v "GRADLE_HOME_VOLUME":/home/gradle/.gradle -v "$DIR":/home/gradle/project \
+ -v "$GRADLE_HOME_VOLUME":/home/gradle/.gradle -v "$DIR":/home/gradle/project \
  -w /home/gradle/project $DOCKER_IMAGE gradle $GRADLE_CMD
