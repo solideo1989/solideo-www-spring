@@ -21,3 +21,4 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 
 build.log
+build.success

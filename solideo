@@ -3,12 +3,14 @@
 echo "Usage: $0 [build] [start|stop|restart]"
 
 SOLIDEO_RUN_OPTS=""
+export SD_GRADLE_OPTIONS=""
 
 sd_build="false"
 sd_start="false"
 sd_stop="false"
 sd_restart="false"
 sd_daemon="false" 
+sd_build_scan="false"
 
 while test -n "$1"; do
   case "$1" in
@@ -32,6 +34,10 @@ while test -n "$1"; do
       sd_daemon="true"
       shift
       ;;
+   --scan|-s)
+      sd_build_scan="true"
+      shift
+      ;;
    *) 
       echo "Usage: $0 [build] [start|stop|restart]"
       exit 1
@@ -40,6 +46,10 @@ done
 
 if [ "$sd_daemon" == "true" ]; then
   SOLIDEO_RUN_OPTS="-d"
+fi
+
+if [ "$sd_build_scan" == "true" ]; then
+  export SD_GRADLE_OPTIONS="--scan"
 fi
 
 if [ "$sd_build" == "true" ]; then
