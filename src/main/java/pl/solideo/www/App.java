@@ -10,7 +10,7 @@ public class App {
 
     @RequestMapping("/")
     String home() {
-        return "Hello World!";
+        return "Strona w trakcie budowy. (unixtime="+(System.currentTimeMillis()/1000)+")";
     }
 
     public static void main(String[] args) throws Exception {
