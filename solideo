@@ -1,0 +1,65 @@
+#!/bin/bash
+
+echo "Usage: $0 [build] [start|stop|restart]"
+
+SOLIDEO_RUN_OPTS=""
+
+sd_build="false"
+sd_start="false"
+sd_stop="false"
+sd_restart="false"
+sd_daemon="false" 
+
+while test -n "$1"; do
+  case "$1" in
+   build)
+      sd_build="true"
+      shift
+      ;;
+   start)
+      sd_start="true"
+      shift
+      ;;
+   stop)
+      sd_stop="true"
+      shift
+      ;;
+   restart)
+      sd_restart="true"
+      shift
+      ;;
+   --daemon|-d)
+      sd_daemon="true"
+      shift
+      ;;
+   *) 
+      echo "Usage: $0 [build] [start|stop|restart]"
+      exit 1
+  esac
+done
+
+if [ "$sd_daemon" == "true" ]; then
+  SOLIDEO_RUN_OPTS="-d"
+fi
+
+if [ "$sd_build" == "true" ]; then
+  echo ""
+  echo "Building solideo-www-spring"
+  ./build.sh
+fi
+
+if [ "$sd_restart" == "true" ]; then
+  echo ""
+  echo "Starting/restarting solideo-www-spring (with --force-recreate)"
+  docker-compose up $SOLIDEO_RUN_OPTS --force-recreate
+
+elif [ "$sd_start" == "true" ]; then
+  echo ""
+  echo "Starting/restarting solideo-www-spring (with --force-recreate)"
+  docker-compose up $SOLIDEO_RUN_OPTS --force-recreate
+
+elif [ "$sd_stop" == "true" ]; then
+  echo ""
+  echo "Stopping solideo-www-spring"
+  docker-compose stop
+fi

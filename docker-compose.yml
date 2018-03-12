@@ -4,7 +4,7 @@ services:
     # replace username/repo:tag with your name and image details
     image: openjdk:8-jre-slim
     command: "/bin/bash -c \"cp -R /distributions/* /runtime; tar -xf solideo-www-spring-boot.tar --directory ./ --strip-components=1; bash -x ./bin/solideo-www-spring\""
-    container_name: "solideo-www-spring"
+    container_name: "solideo-www-spring-runner"
     working_dir: "/runtime"
     environment:
         SOLIDEO_WWW_SPRING_OPTS: "-Xmx512m -Djava.security.egd=file:/dev/./urandom -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap"
