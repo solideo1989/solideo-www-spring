@@ -15,35 +15,41 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" #https://stackoverflow.c
 if ! [ -e "$DIR/build-deploy-notify.cfg" ]
 then
     echo "This script needs configuration file named build-deploy-notify.cfg"
-    exit 1;
+    echo ""
+    echo "Running without notify"
+
+    "$DIR/swarm-deploy.sh" 2>&1 | tee deployment.log
+
+else
+
+    source "$DIR/build-deploy-notify.cfg"
+
+    "$DIR/swarm-deploy.sh" 2>&1 | tee deployment.tmp.log
+
+    message=$( tail -c 960 deployment.tmp.log )
+    message=$message$'\n\n[ '$( date )$' ]'
+
+    echo "Build completed, uploading a gist..."
+
+    gist_url=$( echo $message | nc termbin.com 9999 )
+
+    message=$message$'\n\n'$gist_url
+
+    echo "Sending notification"
+
+    curl -v \
+      --form-string "token=$pushover_apptoken" \
+      --form-string "user=$pushover_usertoken" \
+      --form-string "title=Deploy finished on $instance_name" \
+      --form-string "url=$gist_url" \
+      --form-string "message=$message" \
+      https://api.pushover.net/1/messages.json
+
+    echo "Notification sent";
+
+    rm deployment.tmp.log
+
+    echo ""
+    echo ""
+
 fi
-
-source "$DIR/build-deploy-notify.cfg"
-
-"$DIR/swarm-deploy.sh" 2>&1 | tee deployment.tmp.log
-
-message=$( tail -c 960 deployment.tmp.log )
-message=$message$'\n\n[ '$( date )$' ]'
-
-echo "Build completed, uploading a gist..."
-
-gist_url=$( echo $message | nc termbin.com 9999 )
-
-message=$message$'\n\n'$gist_url
-
-echo "Sending notification"
-
-curl -v \
-  --form-string "token=$pushover_apptoken" \
-  --form-string "user=$pushover_usertoken" \
-  --form-string "title=Deploy finished on $instance_name" \
-  --form-string "url=$gist_url" \
-  --form-string "message=$message" \
-  https://api.pushover.net/1/messages.json
-
-echo "Notification sent";
-
-rm deployment.tmp.log
-
-echo ""
-echo ""

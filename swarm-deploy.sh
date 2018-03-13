@@ -39,7 +39,7 @@ echo ""
 
 function assure_swarm_mode() {
     if docker node ls > /dev/null 2>&1; then
-        echo "Node already in swarm mode"
+        echo "Swarm mode ok"
     else
         echo "Entering swarm mode..."
         docker swarm init
