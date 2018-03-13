@@ -22,11 +22,14 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 start_time=`date +%s`
 
 # just make sure (if clean would fail)
-rm -f "$DIR/build/distributions/*"
+echo "Deleting old distributions"
+rm -f "$DIR/build/distributions/solideo-www-spring-boot.tar"
 
+echo ""
+echo "====BUILD===="
 "$DIR/build.sh"
-
-
+echo "============="
+echo ""
 
 
 
@@ -54,17 +57,17 @@ function is_already_deployed_to_stack() {
 
 if [ -e "$DIR/build/distributions/solideo-www-spring-boot.tar" ]
 then
-    echo "Build success"
+    echo "Build SUCCESS"
     assure_swarm_mode;
     is_already_deployed_to_stack;
 
     if [ "$is_already_deployed_to_stack_result" == "true" ]; then
-        docker service update "${SWARM_STACK_NAME}_${COMPOSE_SERVICE_NAME}" --force
+        docker service update "${SWARM_STACK_NAME}_${COMPOSE_SERVICE_NAME}" --force --quiet
     else
         docker stack deploy -c docker-compose.yml $SWARM_STACK_NAME
     fi
 else
-    echo "Build failure"
+    echo "Build FAILURE"
 fi
 
 
@@ -72,5 +75,5 @@ fi
 end_time=`date +%s`
 ellapsed_time=$((end_time-start_time))
 
-echo "Deploy time: $ellapsed_time seconds"
+echo "deploy=${ellapsed_time}s"
 echo ""
