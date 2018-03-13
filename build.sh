@@ -6,7 +6,7 @@
 ##############
 DOCKER_IMAGE="gradle:jdk8"
 GRADLE_HOME_VOLUME="gradlehome"
-GRADLE_CMD="clean test build $SD_GRADLE_OPTIONS"
+GRADLE_CMD="clean test build --console=plain $SD_GRADLE_OPTIONS"
 
 
 
@@ -15,7 +15,6 @@ GRADLE_CMD="clean test build $SD_GRADLE_OPTIONS"
 #####################
 ## Build on Docker ##
 #####################
-echo "Gradle options: [$SD_GRADLE_OPTIONS]";
 
 #https://stackoverflow.com/questions/59895/getting-the-source-directory-of-a-bash-script-from-within
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
