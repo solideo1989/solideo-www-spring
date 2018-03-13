@@ -61,6 +61,10 @@ dependencies {
 distZip.enabled = false
 bootDistZip.enabled = false
 
+task('set777PermissionsForDistributions') {
+    
+}
+
 jar {
     mainClassName = project.mainClassName
     version =  '0.1'
@@ -82,4 +86,13 @@ bootJar {
     launchScript()
     
     dependsOn(test) //make sure jar and tar is not created on test failure
+}
+
+
+/*
+ * Distribution tar should be deleted by deploy script before the build
+ * in order to determine if build was successful. It should be deleteable.
+ */
+task makeDistDeleteable(type:Exec) {
+    commandLine 'chmod', '-R', '777', 'build/distributions/'
 }
