@@ -6,7 +6,7 @@
 ##############
 DOCKER_IMAGE="gradle:jdk8"
 GRADLE_HOME_VOLUME="gradlehome"
-GRADLE_CMD="clean test build --console=plain $SD_GRADLE_OPTIONS"
+GRADLE_CMD="clean test build makeDistDeleteable --console=plain $SD_GRADLE_OPTIONS"
 
 
 
